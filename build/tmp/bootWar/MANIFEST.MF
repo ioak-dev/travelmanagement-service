@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Start-Class: com.westernacher.internal.travelmanagement.TravelManageme
+ ntApplication
+Main-Class: org.springframework.boot.loader.WarLauncher
+
