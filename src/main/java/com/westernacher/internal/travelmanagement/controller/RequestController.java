@@ -1,9 +1,6 @@
 package com.westernacher.internal.travelmanagement.controller;
 
-import com.westernacher.internal.travelmanagement.domain.Person;
-import com.westernacher.internal.travelmanagement.domain.Request;
-import com.westernacher.internal.travelmanagement.domain.Role;
-import com.westernacher.internal.travelmanagement.domain.Wizard;
+import com.westernacher.internal.travelmanagement.domain.*;
 import com.westernacher.internal.travelmanagement.repository.PersonRepository;
 import com.westernacher.internal.travelmanagement.repository.RequestRepository;
 import com.westernacher.internal.travelmanagement.service.PersonService;
@@ -52,6 +49,26 @@ public class RequestController {
             return request;
         }
         return null;
+    }
+
+    @RequestMapping(value = "/{id}/clientinfo", method = RequestMethod.PUT)
+    public void updateClientInfo (@PathVariable("id") String id,
+                           @Valid @RequestBody Client client) {
+        Request request = repository.findById(id).orElse(null);
+        if (request!=null) {
+            request.getWizard().setClientDetail(client);
+            repository.save(request);
+        }
+    }
+
+    @RequestMapping(value = "/{id}/traveltype", method = RequestMethod.PUT)
+    public void updateTravelType (@PathVariable("id") String id,
+                                  @Valid @RequestBody TravelType travelType) {
+        Request request = repository.findById(id).orElse(null);
+        if (request!=null) {
+            request.getWizard().setTravelType(travelType);
+            repository.save(request);
+        }
     }
 
 
