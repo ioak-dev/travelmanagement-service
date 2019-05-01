@@ -1,7 +1,7 @@
 package com.westernacher.internal.travelmanagement.domain;
 
 public enum RoleType {
-    Administrator,
-    Headof,
-    Other
+    L1,
+    L2,
+    Admin
 }

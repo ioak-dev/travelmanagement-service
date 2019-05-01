@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
-@Data
-public class TravelType {
-    private String type;
+public enum TravelType {
+    Domestic,
+    International
 }
