@@ -7,6 +7,7 @@ public enum WizardStatus {
     DRAFT("DRAFT", "Draft"),
     L1("L1", "Pending with L1"),
     L2("L2", "Pending with L2"),
+    ADMIN("ADMIN", "Pending with Admin"),
     COMPLETE("COMPLETE", "Completed");
 
     private String name;
