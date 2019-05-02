@@ -43,43 +43,43 @@ public class WizardController {
         Person person = personRepository.findById(userId).orElse(null);
         List<Wizard> wizards = repository.findAll();
 
-        List<Wizard> wizardList = new ArrayList<>();
+        if (type=="REVIEWER") {
+            List<Wizard> wizardList = new ArrayList<>();
 
-        List<Wizard> l1WizardList = new ArrayList<>();
-        List<Wizard> l2WizardList = new ArrayList<>();
-        List<Wizard> adminWizardList = new ArrayList<>();
+            List<Wizard> l1WizardList = new ArrayList<>();
+            List<Wizard> l2WizardList = new ArrayList<>();
+            List<Wizard> adminWizardList = new ArrayList<>();
 
 
-        for (Wizard wizard:wizards) {
-            if (wizard.getStatus()== WizardStatus.L1) {
-                l1WizardList.add(wizard);
-            } else if (wizard.getStatus()== WizardStatus.L2) {
-                l2WizardList.add(wizard);
-            } else if (wizard.getStatus()== WizardStatus.ADMIN) {
-                adminWizardList.add(wizard);
+            for (Wizard wizard:wizards) {
+                if (wizard.getStatus()== WizardStatus.L1) {
+                    l1WizardList.add(wizard);
+                } else if (wizard.getStatus()== WizardStatus.L2) {
+                    l2WizardList.add(wizard);
+                } else if (wizard.getStatus()== WizardStatus.ADMIN) {
+                    adminWizardList.add(wizard);
+                } else if (wizard.getStatus()== WizardStatus.ADMIN_APPROVED) {
+                    adminWizardList.add(wizard);
+                }
             }
-        }
 
-        if (person.getRoles().contains(RoleType.USER)) {
-            wizardList.addAll(repository.findAllByCreatedBy(userId)) ;
-        }
+            if (person.getRoles().contains(RoleType.L1)) {
+                wizardList.addAll(l1WizardList);
+            }
 
-        if (person.getRoles().contains(RoleType.L1)) {
-            wizardList.addAll(l1WizardList);
-            wizardList.addAll(repository.findAllByCreatedBy(userId)) ;
-        }
+            if (person.getRoles().contains(RoleType.L2)) {
+                wizardList.addAll(l2WizardList);
+            }
 
-        if (person.getRoles().contains(RoleType.L2)) {
-            wizardList.addAll(l2WizardList);
-            wizardList.addAll(repository.findAllByCreatedBy(userId)) ;
-        }
+            if (person.getRoles().contains(RoleType.Admin)) {
+                wizardList.addAll(adminWizardList);
+            }
 
-        if (person.getRoles().contains(RoleType.Admin)) {
-            wizardList.addAll(adminWizardList);
-            wizardList.addAll(repository.findAllByCreatedBy(userId)) ;
+            return wizardList;
+        } else if(type == "APPLICANT") {
+            return repository.findAllByCreatedBy(userId);
         }
-
-        return wizardList;
+        return null;
     }
 
 
