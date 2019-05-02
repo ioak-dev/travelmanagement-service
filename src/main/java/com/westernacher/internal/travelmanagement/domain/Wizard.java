@@ -25,4 +25,5 @@ public class Wizard {
     private Visa visa;
     private Review review;
     private Date creationDate;
+    private Date submittedOn;
 }
