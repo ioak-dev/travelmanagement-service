@@ -65,6 +65,8 @@ public class WizardController {
                     adminWizardList.add(wizard);
                 } else if (wizard.getStatus()== WizardStatus.ADMIN_APPROVED) {
                     adminWizardList.add(wizard);
+                } else if (wizard.getStatus()== WizardStatus.COMPLETE) {
+                    adminWizardList.add(wizard);
                 }
             }
 
