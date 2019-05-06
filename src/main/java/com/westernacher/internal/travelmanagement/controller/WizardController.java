@@ -1,11 +1,15 @@
 package com.westernacher.internal.travelmanagement.controller;
 
+import com.westernacher.internal.travelmanagement.controller.representation.Resource;
 import com.westernacher.internal.travelmanagement.domain.*;
 import com.westernacher.internal.travelmanagement.repository.PersonRepository;
 import com.westernacher.internal.travelmanagement.repository.WizardRepository;
 import com.westernacher.internal.travelmanagement.service.WizardService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +42,9 @@ public class WizardController {
 
 
     @RequestMapping(value = "/{type}/{userId}", method = RequestMethod.GET)
-    public List<Wizard> getWizard (@PathVariable("type") String type,
-                                   @PathVariable("userId") String userId) {
+    public List<Resource.WizardResource> getWizard (@PathVariable("type") String type,
+                                                    @PathVariable("userId") String userId) {
+        List<Person> personList = personRepository.findAll();
         Person person = personRepository.findById(userId).orElse(null);
         List<Wizard> wizards = repository.findAll();
 
@@ -82,9 +87,9 @@ public class WizardController {
                 wizardList.addAll(adminWizardList);
             }
 
-            return wizardList;
+            return Resource.wizardConverter(wizardList, personList);
         } else if(type.equals("APPLICANT")) {
-            return repository.findAllByCreatedBy(userId);
+            return Resource.wizardConverter(repository.findAllByCreatedBy(userId), personList);
         }
         return new ArrayList<>();
     }
@@ -157,4 +162,3 @@ public class WizardController {
         }
     }
 }
-
