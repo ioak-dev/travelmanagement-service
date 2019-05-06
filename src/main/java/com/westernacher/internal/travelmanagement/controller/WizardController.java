@@ -43,7 +43,7 @@ public class WizardController {
         Person person = personRepository.findById(userId).orElse(null);
         List<Wizard> wizards = repository.findAll();
 
-        if (type=="REVIEWER") {
+        if (type.equals("REVIEWER")) {
             List<Wizard> wizardList = new ArrayList<>();
 
             List<Wizard> l1WizardList = new ArrayList<>();
@@ -63,23 +63,30 @@ public class WizardController {
                 }
             }
 
-            if (person.getRoles().contains(RoleType.L1)) {
+            List<String> roles = new ArrayList<>();
+
+            person.getRoles().stream().forEach(role -> {
+                roles.add(role.getType().name());
+                roles.addAll(role.getOptions());
+            });
+
+            if (roles.contains(RoleType.L1.name())) {
                 wizardList.addAll(l1WizardList);
             }
 
-            if (person.getRoles().contains(RoleType.L2)) {
+            if (roles.contains(RoleType.L2.name())) {
                 wizardList.addAll(l2WizardList);
             }
 
-            if (person.getRoles().contains(RoleType.Admin)) {
+            if (roles.contains(RoleType.Admin.name())) {
                 wizardList.addAll(adminWizardList);
             }
 
             return wizardList;
-        } else if(type == "APPLICANT") {
+        } else if(type.equals("APPLICANT")) {
             return repository.findAllByCreatedBy(userId);
         }
-        return null;
+        return new ArrayList<>();
     }
 
 
