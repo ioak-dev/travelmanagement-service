@@ -3,11 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="4c9e9ac3-3df3-47cd-9fb0-b58325f2c7d5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.2/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.2/fileContent/fileContent.lock" afterDir="false" />
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.2/fileHashes/fileHashes.bin" afterDir="false" />
+>>>>>>> 3931a32b920223e15521e01171319b5f73b64a8d
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.2/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.2/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.2/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.2/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/westernacher/internal/travelmanagement/controller/WizardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/westernacher/internal/travelmanagement/controller/WizardController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/WizardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/WizardController.java" afterDir="false" />
+>>>>>>> 3931a32b920223e15521e01171319b5f73b64a8d
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -23,6 +32,7 @@
       <ProjectState />
     </projectState>
   </component>
+<<<<<<< HEAD
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
@@ -134,6 +144,8 @@
       </file>
     </leaf>
   </component>
+=======
+>>>>>>> 3931a32b920223e15521e01171319b5f73b64a8d
   <component name="FindInProjectRecents">
     <findStrings>
       <find>bootwar</find>
@@ -178,15 +190,18 @@
         <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/domain/RoleType.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/representation/FeedbackResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/representation/WizardResource.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/WizardController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/representation/Resource.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/domain/Project.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/repository/ProjectRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/ProjectController.java" />
+=======
+        <option value="$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/WizardController.java" />
+>>>>>>> 3931a32b920223e15521e01171319b5f73b64a8d
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="90" />
     <option name="y" value="18" />
     <option name="width" value="1920" />
@@ -348,11 +363,18 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="42395000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <editor active="true" />
+=======
+    <option name="totallyTimeSpent" value="40577000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="27" y="5" width="1280" height="688" extended-state="7" />
+>>>>>>> 3931a32b920223e15521e01171319b5f73b64a8d
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25668016" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -599,13 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/domain/WizardStatus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="52" selection-start-line="10" selection-start-column="52" selection-end-line="10" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/service/EmailUtility.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="113">
@@ -685,6 +700,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/PersonController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
@@ -723,6 +739,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/repository/PersonRepository.java">
+=======
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/representation/ServiceRequestRepresentation.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/representation/FeedbackCycleResource.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/representation/FeedbackResource.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/domain/Wizard.java">
+>>>>>>> 3931a32b920223e15521e01171319b5f73b64a8d
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="44" />
@@ -739,6 +761,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/ProjectController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -747,6 +770,24 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1111#1112#0" expanded="true" />
             <element signature="e#1155#1156#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/domain/WizardStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="32" lean-forward="true" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/westernacher/internal/travelmanagement/controller/WizardController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1337#1338#0" expanded="true" />
+            <element signature="e#1396#1397#0" expanded="true" />
+            <element signature="e#4834#4835#0" expanded="true" />
+>>>>>>> 3931a32b920223e15521e01171319b5f73b64a8d
           </folding>
         </state>
       </provider>

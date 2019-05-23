@@ -57,14 +57,18 @@ public class WizardController {
 
 
             for (Wizard wizard:wizards) {
-                if (wizard.getStatus()== WizardStatus.L1) {
-                    l1WizardList.add(wizard);
-                } else if (wizard.getStatus()== WizardStatus.L2) {
-                    l2WizardList.add(wizard);
-                } else if (wizard.getStatus()== WizardStatus.ADMIN) {
-                    adminWizardList.add(wizard);
-                } else if (wizard.getStatus()== WizardStatus.ADMIN_APPROVED) {
-                    adminWizardList.add(wizard);
+                if (!wizard.getCreatedBy().equals(userId)) {
+                    if (wizard.getStatus() == WizardStatus.L1) {
+                        l1WizardList.add(wizard);
+                    } else if (wizard.getStatus() == WizardStatus.L2) {
+                        l2WizardList.add(wizard);
+                    } else if (wizard.getStatus() == WizardStatus.ADMIN) {
+                        adminWizardList.add(wizard);
+                    } else if (wizard.getStatus() == WizardStatus.ADMIN_APPROVED) {
+                        adminWizardList.add(wizard);
+                    } else if (wizard.getStatus() == WizardStatus.COMPLETE) {
+                        adminWizardList.add(wizard);
+                    }
                 }
             }
 
