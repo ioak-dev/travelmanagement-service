@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class TravelDetail {
     private TravelType type;
+    private String billability;
 }
