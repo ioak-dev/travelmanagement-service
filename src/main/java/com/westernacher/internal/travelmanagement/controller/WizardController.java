@@ -109,13 +109,24 @@ public class WizardController {
         return repository.save(wizard);
     }
 
-    @RequestMapping(value = "/{wizardId}/submit/{userId}", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/{wizardId}/submit/{userId}", method = RequestMethod.POST)
     public Wizard applicantSubmit (@PathVariable("wizardId") String wizardId, @PathVariable("userId") String userId) {
         Wizard wizard = repository.findById(wizardId).orElse(null);
         wizard.setStatus(WizardStatus.L1);
         wizard.setSubmittedOn(new Date());
         repository.save(wizard);
         service.sendSubmitMail(wizard.getCreatedBy());
+        return wizard;
+    }*/
+
+    @PutMapping(value = "/submit")
+    public Wizard applicantSubmit () {
+        Wizard wizard = Wizard.builder().build();
+        /*Wizard wizard = repository.findById(wizardId).orElse(null);
+        wizard.setStatus(WizardStatus.L1);
+        wizard.setSubmittedOn(new Date());
+        repository.save(wizard);
+        service.sendSubmitMail(wizard.getCreatedBy());*/
         return wizard;
     }
 
