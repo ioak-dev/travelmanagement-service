@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -120,14 +121,18 @@ public class WizardController {
     }*/
 
     @PutMapping(value = "/submit")
-    public Wizard applicantSubmit () {
-        Wizard wizard = Wizard.builder().build();
-        /*Wizard wizard = repository.findById(wizardId).orElse(null);
+    public ResponseEntity<Wizard> applicantSubmit (@RequestBody Wizard wizard) {
+        if (wizard.getId() != null) {
+
+        }
+
+        /*Wizard wizard = Wizard.builder().build();
+        Wizard wizard = repository.findById(wizardId).orElse(null);
         wizard.setStatus(WizardStatus.L1);
         wizard.setSubmittedOn(new Date());
         repository.save(wizard);
         service.sendSubmitMail(wizard.getCreatedBy());*/
-        return wizard;
+        return ResponseEntity.ok(wizard);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

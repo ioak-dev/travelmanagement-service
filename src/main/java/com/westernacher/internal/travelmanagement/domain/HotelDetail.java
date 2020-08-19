@@ -6,10 +6,8 @@ import java.util.Date;
 
 @Data
 public class HotelDetail {
-    private Date fromdate;
-    private Date todate;
-    private String name;
-    private String staycost;
-    private String billability;
-    private String remarks;
+    private Date checkinDate;
+    private Date checkoutDate;
+    private String location;
+    private String comment;
 }

@@ -14,16 +14,18 @@ public class Wizard {
 
     @Id
     private String id;
+    private ProjectDetail projectDetail;
+    private CabDetail cabDetail;
+    private TravelType travelType;
+    private BusDetail busDetail;
+    private TrainDetail trainDetail;
+    private FlightDetail flightDetail;
+    private HotelDetail hotelDetail;
+    private String pmEmail;
     private WizardStatus status;
     private String createdBy;
-    private TravelDetail traveltype;
-    private ClientInfo clientinfo;
-    private PurposeOfVisit purposeofvisit;
-    private FlightDetail flightdetails;
-    private HotelDetail hoteldetails;
-    private LocalTransportDetail localtransportdetails;
-    private Visa visa;
-    private Review review;
-    private Date creationDate;
+    private String updatedBy;
+    private Date createdDate;
     private Date submittedOn;
+    private Date updatedDate;
 }
