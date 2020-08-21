@@ -19,11 +19,9 @@ public class Resource {
         private String createdBy;
         private String applicant;
         private TravelDetail traveltype;
-        private ClientInfo clientinfo;
         private PurposeOfVisit purposeofvisit;
         private FlightDetail flightdetails;
         private HotelDetail hoteldetails;
-        private LocalTransportDetail localtransportdetails;
         private Visa visa;
         private Review review;
         private Date creationDate;
@@ -45,15 +43,6 @@ public class Resource {
                     .status(wizard.getStatus())
                     .createdBy(wizard.getCreatedBy())
                     .applicant(personMap.get(wizard.getCreatedBy()))
-                    .traveltype(wizard.getTraveltype())
-                    .clientinfo(wizard.getClientinfo())
-                    .purposeofvisit(wizard.getPurposeofvisit())
-                    .flightdetails(wizard.getFlightdetails())
-                    .hoteldetails(wizard.getHoteldetails())
-                    .localtransportdetails(wizard.getLocaltransportdetails())
-                    .visa(wizard.getVisa())
-                    .review(wizard.getReview())
-                    .creationDate(wizard.getCreationDate())
                     .submittedOn(wizard.getSubmittedOn())
                     .build()
                     );
