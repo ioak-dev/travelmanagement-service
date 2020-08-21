@@ -123,16 +123,18 @@ public class WizardController {
     @PutMapping(value = "/create")
     public ResponseEntity<Wizard> createWizard (@RequestBody Wizard wizard) {
         wizard.setUpdatedDate(new Date());
+        wizard.setCreatedDate(new Date());
+        wizard.setSubmittedOn(new Date());
         return ResponseEntity.ok(repository.save(wizard));
     }
 
     @PutMapping(value = "/edit")
     public ResponseEntity<Wizard> updateWizard (@RequestParam String id, @RequestBody Wizard wizard) {
         Wizard dbWizard = repository.findById(id).orElse(null);
-        dbWizard.setBusDetail(wizard.getBusDetail());
-        dbWizard.setCabDetail(wizard.getCabDetail());
-        dbWizard.setFlightDetail(wizard.getFlightDetail());
-        dbWizard.setHotelDetail(wizard.getHotelDetail());
+        dbWizard.setBusDetails(wizard.getBusDetails());
+        dbWizard.setCabDetails(wizard.getCabDetails());
+        dbWizard.setFlightDetails(wizard.getFlightDetails());
+        dbWizard.setHotelDetails(wizard.getHotelDetails());
         return ResponseEntity.ok(repository.save(dbWizard));
     }
 

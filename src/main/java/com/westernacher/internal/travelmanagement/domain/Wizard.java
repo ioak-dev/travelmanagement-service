@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,15 +15,15 @@ public class Wizard {
 
     @Id
     private String id;
-    private ProjectDetail projectDetails;
-    private CabDetail cabDetails;
+    private List<ProjectDetail> projectDetails;
+    private List<CabDetail> cabDetails;
     private TravelType travelType;
-    private BusDetail busDetails;
-    private TrainDetail trainDetails;
-    private FlightDetail flightDetails;
-    private HotelDetail hotelDetails;
-    private InsuranceDetail insuranceDetails;
-    private VisaDetail visaDetails;
+    private List<BusDetail> busDetails;
+    private List<TrainDetail> trainDetails;
+    private List<FlightDetail> flightDetails;
+    private List<HotelDetail> hotelDetails;
+    private List<InsuranceDetail> insuranceDetails;
+    private List<VisaDetail> visaDetails;
     private String pmEmail;
     private WizardStatus status;
     private String createdBy;
