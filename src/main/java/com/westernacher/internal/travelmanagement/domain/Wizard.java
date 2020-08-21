@@ -14,13 +14,15 @@ public class Wizard {
 
     @Id
     private String id;
-    private ProjectDetail projectDetail;
-    private CabDetail cabDetail;
+    private ProjectDetail projectDetails;
+    private CabDetail cabDetails;
     private TravelType travelType;
-    private BusDetail busDetail;
-    private TrainDetail trainDetail;
-    private FlightDetail flightDetail;
-    private HotelDetail hotelDetail;
+    private BusDetail busDetails;
+    private TrainDetail trainDetails;
+    private FlightDetail flightDetails;
+    private HotelDetail hotelDetails;
+    private InsuranceDetail insuranceDetails;
+    private VisaDetail visaDetails;
     private String pmEmail;
     private WizardStatus status;
     private String createdBy;
