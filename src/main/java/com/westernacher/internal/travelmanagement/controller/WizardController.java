@@ -40,13 +40,67 @@ public class WizardController {
 
     private static final AtomicLong LAST_TIME_MS = new AtomicLong();
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public Wizard getWizard (@PathVariable("id") String id) {
         return repository.findById(id).orElse(null);
     }
 
+    @PutMapping("/create")
+    public ResponseEntity<Wizard> create (@Valid @RequestBody Wizard wizard) {
+        wizard.setCreatedDate(new Date());
+        wizard.setId(uniqueCurrentTimeMS());
+        wizard.setStatus(WizardStatus.DRAFT);
+        return ResponseEntity.ok(repository.save(wizard));
+    }
 
-    @RequestMapping(value = "/{type}/{userId}", method = RequestMethod.GET)
+    @PostMapping("/submit/{wizardId}")
+    public ResponseEntity<Wizard> submit (@PathVariable("wizardId") String wizardId) {
+        Wizard wizard = repository.findById(wizardId).orElse(null);
+        if ("person status equal to L1"=="then next step : Check for all steps") {
+            wizard.setStatus(WizardStatus.L1);
+            wizard.setSubmittedOn(new Date());
+            wizard = repository.save(wizard);
+            service.sendSubmitMail(wizard.getCreatedBy());
+        }
+        return ResponseEntity.ok(wizard);
+    }
+
+    @PostMapping("/approve/{wizardId}")
+    public Wizard approveApplicant (@PathVariable String wizardId) {
+        Wizard wizard = repository.findById(wizardId).orElse(null);
+
+        if (wizard.getStatus() == WizardStatus.L1) {
+            wizard.setStatus(WizardStatus.ADMIN);
+            service.sendL1ApproveMail(wizard.getCreatedBy());
+
+        }else if (wizard.getStatus() == WizardStatus.ADMIN) {
+            wizard.setStatus(WizardStatus.ADMIN_APPROVED);
+            service.sendAdminApproveMail(wizard.getCreatedBy());
+        }
+        repository.save(wizard);
+        return wizard;
+    }
+    @PostMapping("/reject/{wizardId}")
+    public Wizard rejectApplicant (@PathVariable String wizardId) {
+        Wizard wizard = repository.findById(wizardId).orElse(null);
+        wizard.setStatus(WizardStatus.DRAFT);
+        repository.save(wizard);
+        service.sendRejectMail(wizard.getCreatedBy());
+        return wizard;
+    }
+
+
+    @PutMapping("/edit")
+    public ResponseEntity<Wizard> updateWizard (@RequestParam String id, @RequestBody Wizard wizard) {
+        Wizard dbWizard = repository.findById(id).orElse(null);
+        dbWizard.setBusDetails(wizard.getBusDetails());
+        dbWizard.setCabDetails(wizard.getCabDetails());
+        dbWizard.setFlightDetails(wizard.getFlightDetails());
+        dbWizard.setHotelDetails(wizard.getHotelDetails());
+        return ResponseEntity.ok(repository.save(dbWizard));
+    }
+
+    @GetMapping("/{type}/{userId}")
     public List<Resource.WizardResource> getWizard (@PathVariable("type") String type,
                                                     @PathVariable("userId") String userId) {
         List<Person> personList = personRepository.findAll();
@@ -99,75 +153,14 @@ public class WizardController {
         return new ArrayList<>();
     }
 
-
-    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-    public Wizard update (@Valid @RequestBody Wizard wizard, @PathVariable("userId") String userId) {
-        if (StringUtils.isEmpty(wizard.getId())) {
-            wizard.setCreatedBy(userId);
-            wizard.setId(uniqueCurrentTimeMS());
-            wizard.setStatus(WizardStatus.DRAFT);
-        }
-        return repository.save(wizard);
-    }
-
-    /*@RequestMapping(value = "/{wizardId}/submit/{userId}", method = RequestMethod.POST)
-    public Wizard applicantSubmit (@PathVariable("wizardId") String wizardId, @PathVariable("userId") String userId) {
-        Wizard wizard = repository.findById(wizardId).orElse(null);
-        wizard.setStatus(WizardStatus.L1);
-        wizard.setSubmittedOn(new Date());
-        repository.save(wizard);
-        service.sendSubmitMail(wizard.getCreatedBy());
-        return wizard;
-    }*/
-
-    @PutMapping(value = "/create")
-    public ResponseEntity<Wizard> createWizard (@RequestBody Wizard wizard) {
-        wizard.setUpdatedDate(new Date());
-        wizard.setCreatedDate(new Date());
-        wizard.setSubmittedOn(new Date());
-        return ResponseEntity.ok(repository.save(wizard));
-    }
-
-    @PutMapping(value = "/edit")
-    public ResponseEntity<Wizard> updateWizard (@RequestParam String id, @RequestBody Wizard wizard) {
-        Wizard dbWizard = repository.findById(id).orElse(null);
-        dbWizard.setBusDetails(wizard.getBusDetails());
-        dbWizard.setCabDetails(wizard.getCabDetails());
-        dbWizard.setFlightDetails(wizard.getFlightDetails());
-        dbWizard.setHotelDetails(wizard.getHotelDetails());
-        return ResponseEntity.ok(repository.save(dbWizard));
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     public void deleteApplicant (@PathVariable("id") String id) {
         repository.deleteById(id);
     }
 
-    @RequestMapping(value = "/{wizardId}/approve/{userId}", method = RequestMethod.POST)
-    public Wizard approveApplicant (@PathVariable("wizardId") String wizardId, @PathVariable("userId") String userId) {
-        Wizard wizard = repository.findById(wizardId).orElse(null);
 
-        if (wizard.getStatus() == WizardStatus.L1) {
-            wizard.setStatus(WizardStatus.ADMIN);
-            service.sendL1ApproveMail(wizard.getCreatedBy());
 
-        }else if (wizard.getStatus() == WizardStatus.ADMIN) {
-            wizard.setStatus(WizardStatus.ADMIN_APPROVED);
-            service.sendAdminApproveMail(wizard.getCreatedBy());
-        }
-        repository.save(wizard);
-        return wizard;
-    }
-    @RequestMapping(value = "/{wizardId}/reject/{userId}", method = RequestMethod.POST)
-    public Wizard rejectApplicant (@PathVariable("wizardId") String wizardId, @PathVariable("userId") String userId) {
-        Wizard wizard = repository.findById(wizardId).orElse(null);
-        wizard.setStatus(WizardStatus.DRAFT);
-        repository.save(wizard);
-        service.sendRejectMail(wizard.getCreatedBy());
-        return wizard;
-    }
-
-    @RequestMapping(value = "/{wizardId}/complete/{userId}", method = RequestMethod.POST)
+    @PostMapping("/{wizardId}/complete/{userId}")
     public void complete(@PathVariable("wizardId") String wizardId, @PathVariable("userId") String userId) {
         Wizard wizard = repository.findById(wizardId).orElse(null);
         wizard.setStatus(WizardStatus.COMPLETE);
