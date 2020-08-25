@@ -3,6 +3,7 @@ package com.westernacher.internal.travelmanagement.controller;
 import com.westernacher.internal.travelmanagement.controller.representation.Resource;
 import com.westernacher.internal.travelmanagement.domain.*;
 import com.westernacher.internal.travelmanagement.repository.PersonRepository;
+import com.westernacher.internal.travelmanagement.repository.RoleRepository;
 import com.westernacher.internal.travelmanagement.repository.WizardRepository;
 import com.westernacher.internal.travelmanagement.service.WizardService;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,9 @@ public class WizardController {
 
     @Autowired
     private WizardService service;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     private static final AtomicLong LAST_TIME_MS = new AtomicLong();
 
@@ -73,22 +77,18 @@ public class WizardController {
                 }
             }
 
-            List<String> roles = new ArrayList<>();
 
-            person.getRoles().stream().forEach(role -> {
-                roles.add(role.getType().name());
-                roles.addAll(role.getOptions());
-            });
+            List<Role> roles = roleRepository.findByParentEmailId(person.getEmail());
 
-            if (roles.contains(RoleType.L1.name())) {
+            if (roles.contains(RoleType.L1)) {
                 wizardList.addAll(l1WizardList);
             }
 
-            if (roles.contains(RoleType.L2.name())) {
+            if (roles.contains(RoleType.L2)) {
                 wizardList.addAll(l2WizardList);
             }
 
-            if (roles.contains(RoleType.Admin.name())) {
+            if (roles.contains(RoleType.Admin)) {
                 wizardList.addAll(adminWizardList);
             }
 
