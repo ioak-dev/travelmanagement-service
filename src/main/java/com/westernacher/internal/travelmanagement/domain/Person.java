@@ -1,5 +1,6 @@
 package com.westernacher.internal.travelmanagement.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,12 +16,15 @@ public class Person {
     private String id;
     private String empId;
     private String name;
+    private String jobName;
     private String email;
     private String unit;
     private Date joiningDate;
-    private String designation;
+    private String level;
+    private String specialization;
     private Date lastAppraisalDate;
     private int duration;
-    private List<Role> roles;
+    private String roleId;
+    private PersonStatus status;
 
 }

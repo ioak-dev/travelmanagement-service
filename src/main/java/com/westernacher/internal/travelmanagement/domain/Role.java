@@ -3,11 +3,11 @@ package com.westernacher.internal.travelmanagement.domain;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
-
 @Data
 public class Role {
     @Id
+    private String id;
+    private String parentUserId;
     private RoleType type;
-    private List<String> options;
+    private String childUserId;
 }
