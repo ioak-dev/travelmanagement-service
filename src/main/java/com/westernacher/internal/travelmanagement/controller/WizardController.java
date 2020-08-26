@@ -56,7 +56,7 @@ public class WizardController {
     @PostMapping("/submit/{wizardId}")
     public ResponseEntity<Wizard> submit (@PathVariable("wizardId") String wizardId) {
         Wizard wizard = repository.findById(wizardId).orElse(null);
-        if ("person status equal to L1"=="then next step : Check for all steps") {
+        if (wizard.getStatus().equals(WizardStatus.DRAFT)) {
             wizard.setStatus(WizardStatus.L1);
             wizard.setSubmittedOn(new Date());
             wizard = repository.save(wizard);
@@ -69,11 +69,13 @@ public class WizardController {
     public Wizard approveApplicant (@PathVariable String wizardId) {
         Wizard wizard = repository.findById(wizardId).orElse(null);
 
-        if (wizard.getStatus() == WizardStatus.L1) {
-            wizard.setStatus(WizardStatus.ADMIN);
+        if (wizard.getStatus().equals(WizardStatus.L1)) {
+            wizard.setStatus(WizardStatus.L2);
             service.sendL1ApproveMail(wizard.getCreatedBy());
-
-        }else if (wizard.getStatus() == WizardStatus.ADMIN) {
+        }else if (wizard.getStatus().equals(WizardStatus.L2)) {
+            wizard.setStatus(WizardStatus.ADMIN);
+            service.sendAdminApproveMail(wizard.getCreatedBy());
+        }else if (wizard.getStatus().equals(WizardStatus.ADMIN)) {
             wizard.setStatus(WizardStatus.ADMIN_APPROVED);
             service.sendAdminApproveMail(wizard.getCreatedBy());
         }
