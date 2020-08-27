@@ -52,6 +52,16 @@ public class RoleController {
         return repository.findById(id).orElse(null);
     }
 
+    @GetMapping("/email/{emailId}")
+    public List<RoleType> getRoleTypes (@PathVariable String emailId) {
+        List<Role> roles = repository.findByParentEmailId(emailId);
+        List<RoleType> roleTypes =  new ArrayList<>();
+        roles.stream().forEach(role -> {
+            roleTypes.add(role.getType());
+        });
+        return roleTypes;
+    }
+
     @DeleteMapping
     public void deleteAll () {
         repository.deleteAll();
