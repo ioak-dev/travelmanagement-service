@@ -36,8 +36,11 @@ public class RoleController {
 
     @PutMapping
     public Role createAndUpdate (@RequestBody Role role) {
-        Role existingRole = repository.findById(role.getId()).orElse(null);
-
+        Role existingRole = null;
+        if (role.getId() != null) {
+            existingRole = repository.findById(role.getId()).orElse(null);
+        }
+        
         if (existingRole !=null) {
             existingRole.setParentEmailId(role.getParentEmailId());
             existingRole.setType(role.getType());
