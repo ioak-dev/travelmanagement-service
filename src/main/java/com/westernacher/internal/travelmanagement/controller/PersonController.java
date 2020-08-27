@@ -46,14 +46,13 @@ public class PersonController {
         if(existingPerson != null) {
             existingPerson.setEmpId(person.getEmpId());
             existingPerson.setName(person.getName());
-            existingPerson.setJobName(person.getJobName());
-            existingPerson.setUnit(person.getUnit());
+            existingPerson.setJobName(person.getJobName() != null ? person.getJobName():null);
+            existingPerson.setUnit(person.getUnit() != null?person.getUnit():null);
             existingPerson.setJoiningDate(person.getJoiningDate());
-            existingPerson.setLevel(person.getLevel());
-            existingPerson.setSpecialization(person.getSpecialization());
+            existingPerson.setLevel(person.getLevel() != null ? person.getLevel():null);
+            existingPerson.setSpecialization(person.getSpecialization() != null ? person.getSpecialization():null);
             existingPerson.setLastAppraisalDate(person.getLastAppraisalDate());
             existingPerson.setDuration(person.getDuration());
-            existingPerson.setRoleId(person.getRoleId());
             existingPerson.setStatus(person.getStatus());
             return repository.save(existingPerson);
         }
