@@ -85,7 +85,7 @@ public class PersonController {
         repository.deleteById(id);
     }
 
-    @PostMapping(value = "/upload/person", consumes = "multipart/form-data")
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadPersonFile(@ModelAttribute("file") MultipartFile file) {
 
         repository.deleteAll();
