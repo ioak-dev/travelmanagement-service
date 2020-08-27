@@ -15,7 +15,7 @@ public class RoleService {
 
     public List<Role> updateAll(List<Role> roles) {
 
-        return null;
+        return repository.saveAll(roles);
     }
 
 }
