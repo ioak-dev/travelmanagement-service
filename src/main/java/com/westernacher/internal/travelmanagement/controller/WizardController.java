@@ -46,7 +46,7 @@ public class WizardController {
     }
 
     @PutMapping("/create")
-    public ResponseEntity<Wizard> create (@Valid @RequestBody Wizard wizard) {
+    public ResponseEntity<Wizard> create (@RequestBody Wizard wizard) {
         wizard.setCreatedDate(new Date());
         wizard.setId(uniqueCurrentTimeMS());
         wizard.setStatus(WizardStatus.DRAFT);

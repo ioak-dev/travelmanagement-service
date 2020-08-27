@@ -41,7 +41,7 @@ public class PersonController {
     }
 
     @PutMapping
-    public Person createAndUpdate (@Valid @RequestBody Person person) {
+    public Person createAndUpdate (@RequestBody Person person) {
         Person existingPerson = repository.findPersonByEmail(person.getEmail());
         if(existingPerson != null) {
             existingPerson.setEmpId(person.getEmpId());

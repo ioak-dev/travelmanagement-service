@@ -35,7 +35,7 @@ public class RoleController {
     }
 
     @PutMapping
-    public Role createAndUpdate (@Valid @RequestBody Role role) {
+    public Role createAndUpdate (@RequestBody Role role) {
         Role existingRole = repository.findById(role.getId()).orElse(null);
 
         if (existingRole !=null) {
