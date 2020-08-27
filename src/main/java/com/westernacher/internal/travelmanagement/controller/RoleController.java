@@ -95,9 +95,9 @@ public class RoleController {
         for(String line : rows) {
             String[] values = line.split(",");
             Role role = new Role();
-            role.setParentEmailId(values[0]);
-            role.setType(RoleType.valueOf(values[1]));
-            role.setChildEmailId(values[2]);
+            role.setParentEmailId(values[0].trim());
+            role.setType(RoleType.valueOf(values[1].trim()));
+            role.setChildEmailId(values[2].trim());
             roles.add(role);
         }
         return roles;

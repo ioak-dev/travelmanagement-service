@@ -109,7 +109,7 @@ public class WizardController {
         Person person = personRepository.findById(userId).orElse(null);
         List<Wizard> wizards = repository.findAll();
 
-        if (type.equals("REVIEWER")) {
+        if (type.equalsIgnoreCase("REVIEWER")) {
             List<Wizard> wizardList = new ArrayList<>();
 
             List<Wizard> l1WizardList = new ArrayList<>();
@@ -149,7 +149,7 @@ public class WizardController {
             }
 
             return Resource.wizardConverter(wizardList, personList);
-        } else if(type.equals("APPLICANT")) {
+        } else if(type.equalsIgnoreCase("APPLICANT")) {
             return Resource.wizardConverter(repository.findAllByCreatedBy(userId), personList);
         }
         return new ArrayList<>();
