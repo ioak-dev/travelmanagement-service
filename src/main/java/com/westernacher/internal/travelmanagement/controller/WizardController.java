@@ -61,7 +61,7 @@ public class WizardController {
             wizard.setStatus(WizardStatus.L1);
             wizard.setSubmittedOn(new Date());
             wizard = repository.save(wizard);
-            service.sendSubmitMail(wizard.getCreatedBy());
+            //service.sendSubmitMail(wizard.getCreatedBy());
         }
         return ResponseEntity.ok(wizard);
     }
