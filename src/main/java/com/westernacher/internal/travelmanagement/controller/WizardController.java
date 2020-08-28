@@ -72,16 +72,16 @@ public class WizardController {
 
         if (wizard.getStatus().equals(WizardStatus.DRAFT)) {
             wizard.setStatus(WizardStatus.L1);
-            service.sendL1ApproveMail(wizard.getCreatedBy());
+            //service.sendL1ApproveMail(wizard.getCreatedBy());
         }else if (wizard.getStatus().equals(WizardStatus.L1)) {
             wizard.setStatus(WizardStatus.L2);
-            service.sendL1ApproveMail(wizard.getCreatedBy());
+            //service.sendL1ApproveMail(wizard.getCreatedBy());
         }else if (wizard.getStatus().equals(WizardStatus.L2)) {
             wizard.setStatus(WizardStatus.ADMIN);
-            service.sendAdminApproveMail(wizard.getCreatedBy());
+            //service.sendAdminApproveMail(wizard.getCreatedBy());
         }else if (wizard.getStatus().equals(WizardStatus.ADMIN)) {
             wizard.setStatus(WizardStatus.ADMIN_APPROVED);
-            service.sendAdminApproveMail(wizard.getCreatedBy());
+            //service.sendAdminApproveMail(wizard.getCreatedBy());
         }
         repository.save(wizard);
         return wizard;
