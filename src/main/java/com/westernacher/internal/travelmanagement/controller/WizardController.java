@@ -90,9 +90,8 @@ public class WizardController {
     public Wizard rejectApplicant (@PathVariable String wizardId) {
         Wizard wizard = repository.findById(wizardId).orElse(null);
         wizard.setStatus(WizardStatus.DRAFT);
-        repository.save(wizard);
-        service.sendRejectMail(wizard.getCreatedBy());
-        return wizard;
+        //service.sendRejectMail(wizard.getCreatedBy());
+        return repository.save(wizard);
     }
 
 
