@@ -116,57 +116,33 @@ public class WizardController {
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/{type}/{userId}")
-    public List<Resource.WizardResource> getWizard (@PathVariable("type") String type,
-                                                    @PathVariable("userId") String userId) {
-        List<Person> personList = personRepository.findAll();
-        Person person = personRepository.findById(userId).orElse(null);
-        List<Wizard> wizards = repository.findAll();
+    @GetMapping("/user/{userId}")
+    public List<Resource.WizardResource> getWizardList (@PathVariable("userId") String userId) {
 
-        if (type.equalsIgnoreCase("REVIEWER")) {
-            List<Wizard> wizardList = new ArrayList<>();
+        List<Wizard> response = new ArrayList<>();
 
-            List<Wizard> l1WizardList = new ArrayList<>();
-            List<Wizard> l2WizardList = new ArrayList<>();
-            List<Wizard> adminWizardList = new ArrayList<>();
+        response.addAll(repository.findAllByCreatedBy(userId));
 
+        List<Role> roles = roleRepository.findByParentUserId(userId);
 
-            for (Wizard wizard:wizards) {
-                if (!wizard.getCreatedBy().equals(userId)) {
-                    if (wizard.getStatus() == WizardStatus.L1) {
-                        l1WizardList.add(wizard);
-                    } else if (wizard.getStatus() == WizardStatus.L2) {
-                        l2WizardList.add(wizard);
-                    } else if (wizard.getStatus() == WizardStatus.ADMIN) {
-                        adminWizardList.add(wizard);
-                    } else if (wizard.getStatus() == WizardStatus.ADMIN_APPROVED) {
-                        adminWizardList.add(wizard);
-                    } else if (wizard.getStatus() == WizardStatus.COMPLETE) {
-                        adminWizardList.add(wizard);
-                    }
-                }
-            }
+        List<RoleType> roleTypes = new ArrayList<>();
 
+        List<String> childIds = new ArrayList<>();
 
-            List<Role> roles = roleRepository.findByParentUserId(person.getId());
+        roles.stream().forEach(role -> {
+            childIds.add(role.getChildUserId());
+            roleTypes.add(role.getType());
+        });
 
-            if (roles.contains(RoleType.L1)) {
-                wizardList.addAll(l1WizardList);
-            }
+        childIds.stream().forEach(childId-> {
+            response.addAll(repository.findAllByCreatedBy(childId));
+        });
 
-            if (roles.contains(RoleType.L2)) {
-                wizardList.addAll(l2WizardList);
-            }
-
-            if (roles.contains(RoleType.Admin)) {
-                wizardList.addAll(adminWizardList);
-            }
-
-            return Resource.wizardConverter(wizardList, personList);
-        } else if(type.equalsIgnoreCase("APPLICANT")) {
-            return Resource.wizardConverter(repository.findAllByCreatedBy(userId), personList);
+        if (roleTypes.contains(RoleType.Admin)) {
+            response.addAll(repository.findAllByStatus(WizardStatus.ADMIN));
         }
-        return new ArrayList<>();
+
+        return Resource.wizardConverter(response, personRepository.findAll());
     }
 
     @DeleteMapping("/{id}")
