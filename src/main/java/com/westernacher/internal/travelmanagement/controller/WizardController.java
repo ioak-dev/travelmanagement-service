@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,11 @@ public class WizardController {
 
     @GetMapping("/{id}")
     public Wizard getWizard (@PathVariable("id") String id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/{id}")
+    public Wizard getWizardBasedOnloginId (@PathVariable("id") String id) {
         return repository.findById(id).orElse(null);
     }
 
@@ -93,13 +99,26 @@ public class WizardController {
 
 
     @PutMapping("/edit")
-    public ResponseEntity<Wizard> updateWizard (@RequestParam String id, @RequestBody Wizard wizard) {
+    public ResponseEntity<Wizard> updateWizard (@RequestParam String id, @RequestParam String loginId,
+                                                @RequestBody Wizard wizard) {
         Wizard dbWizard = repository.findById(id).orElse(null);
-        dbWizard.setBusDetails(wizard.getBusDetails());
-        dbWizard.setCabDetails(wizard.getCabDetails());
-        dbWizard.setFlightDetails(wizard.getFlightDetails());
-        dbWizard.setHotelDetails(wizard.getHotelDetails());
-        return ResponseEntity.ok(repository.save(dbWizard));
+        if (dbWizard.getStatus().equals(WizardStatus.DRAFT) && dbWizard.getCreatedBy().equals(loginId)) {
+            dbWizard.setProjectDetails(wizard.getProjectDetails());
+            dbWizard.setCabDetails(wizard.getCabDetails());
+            dbWizard.setTravelType(wizard.getTravelType());
+            dbWizard.setBusDetails(wizard.getBusDetails());
+            dbWizard.setTrainDetails(wizard.getTrainDetails());
+            dbWizard.setFlightDetails(wizard.getFlightDetails());
+            dbWizard.setHotelDetails(wizard.getHotelDetails());
+            dbWizard.setInsuranceDetails(wizard.getInsuranceDetails());
+            dbWizard.setVisaDetails(wizard.getVisaDetails());
+            dbWizard.setPmEmail(wizard.getPmEmail());
+            dbWizard.setUpdatedDate(new Date());
+            dbWizard.setUpdatedBy(loginId);
+            return ResponseEntity.ok(repository.save(dbWizard));
+        }
+
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{type}/{userId}")
