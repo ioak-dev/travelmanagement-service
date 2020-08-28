@@ -28,12 +28,12 @@ public class WizardService {
 
     public void sendSubmitMail(String personId) {
         Person person = personRepository.findById(personId).orElse(null);
-        List<Role> roles = roleRepository.findByChildEmailId(person.getEmail());
+        List<Role> roles = roleRepository.findByChildUserId(personId);
 
         List<String> emailList = new ArrayList<>();
         for (Role role:roles) {
             if (role.getType().equals(RoleType.L1)) {
-                emailList.add(role.getParentEmailId());
+                emailList.add(role.getParentUserId());
             }
         }
 
@@ -49,12 +49,12 @@ public class WizardService {
 
     public void sendL1ApproveMail(String personId) {
         Person person = personRepository.findById(personId).orElse(null);
-        List<Role> roles = roleRepository.findByChildEmailId(person.getEmail());
+        List<Role> roles = roleRepository.findByChildUserId(personId);
 
         List<String> emailList = new ArrayList<>();
         for (Role role:roles) {
             if (role.getType().equals(RoleType.Admin)) {
-                emailList.add(role.getParentEmailId());
+                emailList.add(role.getParentUserId());
             }
         }
 

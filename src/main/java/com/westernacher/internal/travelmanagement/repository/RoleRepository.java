@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RoleRepository extends MongoRepository<Role, String> {
 
-    List<Role> findByChildEmailId(String childEmailId);
-    List<Role> findByParentEmailId(String parentEmailId);
+    List<Role> findByChildUserId(String childUserId);
+    List<Role> findByParentUserId(String parentUserId);
 
 }

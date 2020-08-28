@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Role {
     @Id
     private String id;
-    private String parentEmailId;
+    private String parentUserId;
     private RoleType type;
-    private String childEmailId;
+    private String childUserId;
 }

@@ -46,8 +46,6 @@ public class WizardController {
         return repository.findById(id).orElse(null);
     }
 
-
-
     @PutMapping("/create")
     public ResponseEntity<Wizard> create (@RequestBody Wizard wizard) {
         wizard.setCreatedDate(new Date());
@@ -150,7 +148,7 @@ public class WizardController {
             }
 
 
-            List<Role> roles = roleRepository.findByParentEmailId(person.getEmail());
+            List<Role> roles = roleRepository.findByParentUserId(person.getId());
 
             if (roles.contains(RoleType.L1)) {
                 wizardList.addAll(l1WizardList);

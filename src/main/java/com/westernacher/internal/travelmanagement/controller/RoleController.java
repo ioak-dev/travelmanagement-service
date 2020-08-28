@@ -1,8 +1,10 @@
 
 package com.westernacher.internal.travelmanagement.controller;
 
+import com.westernacher.internal.travelmanagement.domain.Person;
 import com.westernacher.internal.travelmanagement.domain.Role;
 import com.westernacher.internal.travelmanagement.domain.RoleType;
+import com.westernacher.internal.travelmanagement.repository.PersonRepository;
 import com.westernacher.internal.travelmanagement.repository.RoleRepository;
 import com.westernacher.internal.travelmanagement.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,10 +30,13 @@ public class RoleController {
     @Autowired
     private RoleService service;
 
-    @GetMapping
+    @Autowired
+    private PersonRepository personRepository;
+
+    /*@GetMapping
     public List<Role> get () {
         return repository.findAll();
-    }
+    }*/
 
     @PutMapping
     public Role createAndUpdate (@RequestBody Role role) {
@@ -42,9 +46,9 @@ public class RoleController {
         }
 
         if (existingRole !=null) {
-            existingRole.setParentEmailId(role.getParentEmailId());
+            existingRole.setParentUserId(role.getParentUserId());
             existingRole.setType(role.getType());
-            existingRole.setChildEmailId(role.getChildEmailId());
+            existingRole.setChildUserId(role.getChildUserId());
             return repository.save(existingRole);
         }
         return repository.save(role);
@@ -55,19 +59,9 @@ public class RoleController {
         return repository.findById(id).orElse(null);
     }
 
-    @GetMapping("/email/{emailId}")
-    public List<RoleType> getRoleTypes (@PathVariable String emailId) {
-        List<Role> roles = repository.findByParentEmailId(emailId);
-        List<RoleType> roleTypes =  new ArrayList<>();
-        roles.stream().forEach(role -> {
-            roleTypes.add(role.getType());
-        });
-        return roleTypes;
-    }
-
-    @GetMapping("/email/{emailId}/roles")
-    public List<Role> getRoles (@PathVariable String emailId) {
-        return repository.findByParentEmailId(emailId);
+    @GetMapping
+    public List<Role> getRoles (@RequestParam String userId) {
+        return repository.findByParentUserId(userId);
     }
 
     @DeleteMapping
@@ -108,14 +102,22 @@ public class RoleController {
 
     private List<Role> getRoles(List<String> rows) {
 
+        Map<String, String> personMap = new HashMap<>();
+
+        List<Person> personList = personRepository.findAll();
+
+        personList.stream().forEach(person -> {
+            personMap.put(person.getEmail(), person.getId());
+        });
+
         List<Role> roles =  new ArrayList<>();
 
         for(String line : rows) {
             String[] values = line.split(",");
             Role role = new Role();
-            role.setParentEmailId(values[0].trim());
+            role.setParentUserId(personMap.get(values[0].trim()));
             role.setType(RoleType.valueOf(values[1].trim()));
-            role.setChildEmailId(values[2].trim());
+            role.setChildUserId(personMap.get(values[2].trim()));
             roles.add(role);
         }
         return roles;
