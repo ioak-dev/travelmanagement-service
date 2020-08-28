@@ -134,7 +134,7 @@ public class DefaultWizardService implements WizardService {
 
         return Resource.wizardConverter(response, personRepository.findAll());
     }
-        
+
     public void complete(String wizardId, String userId) {
         Wizard wizard = repository.findById(wizardId).orElse(null);
         wizard.setStatus(WizardStatus.COMPLETE);
