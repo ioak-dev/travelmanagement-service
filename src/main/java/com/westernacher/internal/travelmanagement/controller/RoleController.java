@@ -40,7 +40,7 @@ public class RoleController {
         if (role.getId() != null) {
             existingRole = repository.findById(role.getId()).orElse(null);
         }
-        
+
         if (existingRole !=null) {
             existingRole.setParentEmailId(role.getParentEmailId());
             existingRole.setType(role.getType());
@@ -63,6 +63,11 @@ public class RoleController {
             roleTypes.add(role.getType());
         });
         return roleTypes;
+    }
+
+    @GetMapping("/email/{emailId}/roles")
+    public List<Role> getRoles (@PathVariable String emailId) {
+        return repository.findByParentEmailId(emailId);
     }
 
     @DeleteMapping

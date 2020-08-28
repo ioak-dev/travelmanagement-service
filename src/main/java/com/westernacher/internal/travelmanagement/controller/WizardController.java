@@ -46,10 +46,7 @@ public class WizardController {
         return repository.findById(id).orElse(null);
     }
 
-    @GetMapping("/{id}")
-    public Wizard getWizardBasedOnloginId (@PathVariable("id") String id) {
-        return repository.findById(id).orElse(null);
-    }
+
 
     @PutMapping("/create")
     public ResponseEntity<Wizard> create (@RequestBody Wizard wizard) {
