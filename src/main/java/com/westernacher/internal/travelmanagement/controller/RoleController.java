@@ -6,7 +6,7 @@ import com.westernacher.internal.travelmanagement.domain.Role;
 import com.westernacher.internal.travelmanagement.domain.RoleType;
 import com.westernacher.internal.travelmanagement.repository.PersonRepository;
 import com.westernacher.internal.travelmanagement.repository.RoleRepository;
-import com.westernacher.internal.travelmanagement.service.RoleService;
+import com.westernacher.internal.travelmanagement.service.implementation.DefaultRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +28,20 @@ public class RoleController {
     private RoleRepository repository;
 
     @Autowired
-    private RoleService service;
+    private DefaultRoleService service;
 
     @Autowired
     private PersonRepository personRepository;
 
-    /*@GetMapping
-    public List<Role> get () {
-        return repository.findAll();
-    }*/
+    @GetMapping
+    public List<Role> getRoles (@RequestParam String userId) {
+        return repository.findByParentUserId(userId);
+    }
+
+    @GetMapping("/{id}")
+    public Role get (@PathVariable("id") String id) {
+        return repository.findById(id).orElse(null);
+    }
 
     @PutMapping
     public Role createAndUpdate (@RequestBody Role role) {
@@ -52,16 +57,6 @@ public class RoleController {
             return repository.save(existingRole);
         }
         return repository.save(role);
-    }
-
-    @GetMapping("/{id}")
-    public Role get (@PathVariable("id") String id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @GetMapping
-    public List<Role> getRoles (@RequestParam String userId) {
-        return repository.findByParentUserId(userId);
     }
 
     @DeleteMapping

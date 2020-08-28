@@ -4,7 +4,7 @@ package com.westernacher.internal.travelmanagement.controller;
 import com.westernacher.internal.travelmanagement.domain.Person;
 import com.westernacher.internal.travelmanagement.domain.PersonStatus;
 import com.westernacher.internal.travelmanagement.repository.PersonRepository;
-import com.westernacher.internal.travelmanagement.service.PersonService;
+import com.westernacher.internal.travelmanagement.service.implementation.DefaultPersonService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +32,7 @@ public class PersonController {
     private PersonRepository repository;
 
     @Autowired
-    private PersonService service;
+    private DefaultPersonService service;
 
     @GetMapping
     public List<Person> get () {

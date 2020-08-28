@@ -5,18 +5,12 @@ import com.westernacher.internal.travelmanagement.domain.*;
 import com.westernacher.internal.travelmanagement.repository.PersonRepository;
 import com.westernacher.internal.travelmanagement.repository.RoleRepository;
 import com.westernacher.internal.travelmanagement.repository.WizardRepository;
-import com.westernacher.internal.travelmanagement.service.WizardService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.westernacher.internal.travelmanagement.service.implementation.DefaultWizardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Id;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +28,7 @@ public class WizardController {
     private PersonRepository personRepository;
 
     @Autowired
-    private WizardService service;
+    private DefaultWizardService service;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -87,7 +81,7 @@ public class WizardController {
             wizard.setStatus(WizardStatus.L1);
             wizard.setSubmittedOn(new Date());
             wizard = repository.save(wizard);
-            //service.sendSubmitMail(wizard.getCreatedBy());
+            service.sendSubmitMail(wizard.getCreatedBy());
         }
         return ResponseEntity.ok(wizard);
     }
@@ -98,16 +92,16 @@ public class WizardController {
 
         if (wizard.getStatus().equals(WizardStatus.DRAFT)) {
             wizard.setStatus(WizardStatus.L1);
-            //service.sendL1ApproveMail(wizard.getCreatedBy());
+            service.sendL1ApproveMail(wizard.getCreatedBy());
         }else if (wizard.getStatus().equals(WizardStatus.L1)) {
             wizard.setStatus(WizardStatus.L2);
-            //service.sendL1ApproveMail(wizard.getCreatedBy());
+            service.sendL1ApproveMail(wizard.getCreatedBy());
         }else if (wizard.getStatus().equals(WizardStatus.L2)) {
             wizard.setStatus(WizardStatus.ADMIN);
-            //service.sendAdminApproveMail(wizard.getCreatedBy());
+            service.sendAdminApproveMail(wizard.getCreatedBy());
         }else if (wizard.getStatus().equals(WizardStatus.ADMIN)) {
             wizard.setStatus(WizardStatus.ADMIN_APPROVED);
-            //service.sendAdminApproveMail(wizard.getCreatedBy());
+            service.sendAdminApproveMail(wizard.getCreatedBy());
         }
         repository.save(wizard);
         return wizard;
@@ -116,33 +110,9 @@ public class WizardController {
     public Wizard rejectApplicant (@PathVariable String wizardId) {
         Wizard wizard = repository.findById(wizardId).orElse(null);
         wizard.setStatus(WizardStatus.DRAFT);
-        //service.sendRejectMail(wizard.getCreatedBy());
+        service.sendRejectMail(wizard.getCreatedBy());
         return repository.save(wizard);
     }
-
-
-    /*@PutMapping("/edit")
-    public ResponseEntity<Wizard> updateWizard (@RequestParam String id, @RequestParam String loginId,
-                                                @RequestBody Wizard wizard) {
-        Wizard dbWizard = repository.findById(id).orElse(null);
-        if (dbWizard.getStatus().equals(WizardStatus.DRAFT) && dbWizard.getCreatedBy().equals(loginId)) {
-            dbWizard.setProjectDetails(wizard.getProjectDetails());
-            dbWizard.setCabDetails(wizard.getCabDetails());
-            dbWizard.setTravelType(wizard.getTravelType());
-            dbWizard.setBusDetails(wizard.getBusDetails());
-            dbWizard.setTrainDetails(wizard.getTrainDetails());
-            dbWizard.setFlightDetails(wizard.getFlightDetails());
-            dbWizard.setHotelDetails(wizard.getHotelDetails());
-            dbWizard.setInsuranceDetails(wizard.getInsuranceDetails());
-            dbWizard.setVisaDetails(wizard.getVisaDetails());
-            dbWizard.setPmEmail(wizard.getPmEmail());
-            dbWizard.setUpdatedDate(new Date());
-            dbWizard.setUpdatedBy(loginId);
-            return ResponseEntity.ok(repository.save(dbWizard));
-        }
-
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    }*/
 
     @GetMapping("/user/{userId}")
     public List<Resource.WizardResource> getWizardList (@PathVariable("userId") String userId) {

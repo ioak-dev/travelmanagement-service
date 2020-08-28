@@ -8,14 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RoleService {
-
-    @Autowired
-    private RoleRepository repository;
-
-    public List<Role> updateAll(List<Role> roles) {
-
-        return repository.saveAll(roles);
-    }
+public interface RoleService {
+    List<Role> updateAll(List<Role> roles);
 
 }

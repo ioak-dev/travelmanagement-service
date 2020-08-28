@@ -37,10 +37,15 @@ public class EmailUtility {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        String subject = MessageFormat.format(configUtil.getProperty(subjectKey),
-                                Arrays.copyOf(subjectParameters,subjectParameters.length, Object[].class));
-        String body = MessageFormat.format(configUtil.getProperty(bodyKey),
-                                Arrays.copyOf(bodyParameters,bodyParameters.length, Object[].class));
+        String subject = "Subject place holder is not there";
+        String body = "Body place holder is not there";
+
+        if (subjectParameters.length != 0) {
+            subject = MessageFormat.format(configUtil.getProperty(subjectKey),
+                    Arrays.copyOf(subjectParameters, subjectParameters.length, Object[].class));
+            body = MessageFormat.format(configUtil.getProperty(bodyKey),
+                    Arrays.copyOf(bodyParameters, bodyParameters.length, Object[].class));
+        }
 
         helper.setFrom(from);
         helper.setTo(to);
@@ -71,7 +76,7 @@ public class EmailUtility {
 
             sender.send(message);
         }catch(Exception e){
-
+            e.printStackTrace();
         }
     }
 }
