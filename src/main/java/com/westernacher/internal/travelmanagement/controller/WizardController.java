@@ -47,7 +47,8 @@ public class WizardController {
     }
 
     @PutMapping("/create")
-    public ResponseEntity<Wizard> create (@RequestParam String userId, @RequestBody Wizard wizard) {
+    public ResponseEntity<Wizard> create (@RequestParam(required = false) String userId,
+                                          @RequestBody Wizard wizard) {
         Wizard dbWizard = null;
 
         if (wizard.getId() != null) {
