@@ -47,11 +47,36 @@ public class WizardController {
     }
 
     @PutMapping("/create")
-    public ResponseEntity<Wizard> create (@RequestBody Wizard wizard) {
-        wizard.setCreatedDate(new Date());
-        wizard.setId(uniqueCurrentTimeMS());
-        wizard.setStatus(WizardStatus.DRAFT);
-        return ResponseEntity.ok(repository.save(wizard));
+    public ResponseEntity<Wizard> create (@RequestParam String userId, @RequestBody Wizard wizard) {
+        Wizard dbWizard = null;
+
+        if (wizard.getId() != null) {
+            dbWizard = repository.findById(wizard.getId()).orElse(null);
+        }
+
+        if (dbWizard != null) {
+            if (dbWizard.getStatus().equals(WizardStatus.DRAFT) && dbWizard.getCreatedBy().equals(userId)) {
+                dbWizard.setProjectDetails(wizard.getProjectDetails());
+                dbWizard.setCabDetails(wizard.getCabDetails());
+                dbWizard.setTravelType(wizard.getTravelType());
+                dbWizard.setBusDetails(wizard.getBusDetails());
+                dbWizard.setTrainDetails(wizard.getTrainDetails());
+                dbWizard.setFlightDetails(wizard.getFlightDetails());
+                dbWizard.setHotelDetails(wizard.getHotelDetails());
+                dbWizard.setInsuranceDetails(wizard.getInsuranceDetails());
+                dbWizard.setVisaDetails(wizard.getVisaDetails());
+                dbWizard.setPmEmail(wizard.getPmEmail());
+                dbWizard.setUpdatedDate(new Date());
+                dbWizard.setUpdatedBy(userId);
+                return ResponseEntity.ok(repository.save(dbWizard));
+            }
+        } else {
+            wizard.setCreatedDate(new Date());
+            wizard.setId(uniqueCurrentTimeMS());
+            wizard.setStatus(WizardStatus.DRAFT);
+            return ResponseEntity.ok(repository.save(wizard));
+        }
+        return null;
     }
 
     @PostMapping("/submit/{wizardId}")
@@ -95,7 +120,7 @@ public class WizardController {
     }
 
 
-    @PutMapping("/edit")
+    /*@PutMapping("/edit")
     public ResponseEntity<Wizard> updateWizard (@RequestParam String id, @RequestParam String loginId,
                                                 @RequestBody Wizard wizard) {
         Wizard dbWizard = repository.findById(id).orElse(null);
@@ -116,7 +141,7 @@ public class WizardController {
         }
 
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    }
+    }*/
 
     @GetMapping("/user/{userId}")
     public List<Resource.WizardResource> getWizardList (@PathVariable("userId") String userId) {
