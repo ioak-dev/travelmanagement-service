@@ -70,7 +70,10 @@ public class WizardController {
     public Wizard approveApplicant (@PathVariable String wizardId) {
         Wizard wizard = repository.findById(wizardId).orElse(null);
 
-        if (wizard.getStatus().equals(WizardStatus.L1)) {
+        if (wizard.getStatus().equals(WizardStatus.DRAFT)) {
+            wizard.setStatus(WizardStatus.L1);
+            service.sendL1ApproveMail(wizard.getCreatedBy());
+        }else if (wizard.getStatus().equals(WizardStatus.L1)) {
             wizard.setStatus(WizardStatus.L2);
             service.sendL1ApproveMail(wizard.getCreatedBy());
         }else if (wizard.getStatus().equals(WizardStatus.L2)) {
