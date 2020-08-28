@@ -1,15 +1,22 @@
 package com.westernacher.internal.travelmanagement.service;
 
-import org.springframework.stereotype.Service;
+import com.westernacher.internal.travelmanagement.controller.representation.Resource;
+import com.westernacher.internal.travelmanagement.domain.Wizard;
 
-@Service
+import java.util.List;
+
 public interface WizardService {
 
-    void sendSubmitMail(String personId);
+    Wizard createAndUpdate (String userId, Wizard wizard);
 
-    void sendL1ApproveMail(String personId);
+    Wizard submit (String wizardId);
 
-    void sendAdminApproveMail(String personId);
+    Wizard approveApplicant (String wizardId);
 
-    void sendRejectMail(String personId);
+    Wizard rejectApplicant (String wizardId);
+
+    List<Resource.WizardResource> getWizardList (String userId);
+
+    void complete(String wizardId, String userId);
+
 }

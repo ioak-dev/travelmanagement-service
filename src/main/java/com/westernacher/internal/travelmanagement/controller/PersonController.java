@@ -33,13 +33,13 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public Person get (@PathVariable("id") String id) {
-        return repository.findById(id).orElse(null);
+    public ResponseEntity<Person> get (@PathVariable("id") String id) {
+        return ResponseEntity.ok(repository.findById(id).orElse(null));
     }
 
     @GetMapping("/unit/{unit}")
-    public List<Person> getByUnit (@PathVariable("unit") String unit) {
-        return repository.findAllByUnit(unit);
+    public ResponseEntity<List<Person>> getByUnit (@PathVariable("unit") String unit) {
+        return ResponseEntity.ok(repository.findAllByUnit(unit));
     }
 
     @GetMapping("/email/{email}")

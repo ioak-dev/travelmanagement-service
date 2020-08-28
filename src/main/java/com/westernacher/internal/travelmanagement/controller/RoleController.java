@@ -1,22 +1,15 @@
 
 package com.westernacher.internal.travelmanagement.controller;
 
-import com.westernacher.internal.travelmanagement.domain.Person;
 import com.westernacher.internal.travelmanagement.domain.Role;
-import com.westernacher.internal.travelmanagement.domain.RoleType;
-import com.westernacher.internal.travelmanagement.repository.PersonRepository;
 import com.westernacher.internal.travelmanagement.repository.RoleRepository;
-import com.westernacher.internal.travelmanagement.service.implementation.DefaultRoleService;
+import com.westernacher.internal.travelmanagement.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 
 @RestController
@@ -28,35 +21,21 @@ public class RoleController {
     private RoleRepository repository;
 
     @Autowired
-    private DefaultRoleService service;
-
-    @Autowired
-    private PersonRepository personRepository;
+    private RoleService service;
 
     @GetMapping
-    public List<Role> getRoles (@RequestParam String userId) {
-        return repository.findByParentUserId(userId);
+    public ResponseEntity<List<Role>> getRoles (@RequestParam String userId) {
+        return ResponseEntity.ok(repository.findByParentUserId(userId));
     }
 
     @GetMapping("/{id}")
-    public Role get (@PathVariable("id") String id) {
-        return repository.findById(id).orElse(null);
+    public ResponseEntity<Role> get (@PathVariable("id") String id) {
+        return ResponseEntity.ok(repository.findById(id).orElse(null));
     }
 
     @PutMapping
-    public Role createAndUpdate (@RequestBody Role role) {
-        Role existingRole = null;
-        if (role.getId() != null) {
-            existingRole = repository.findById(role.getId()).orElse(null);
-        }
-
-        if (existingRole !=null) {
-            existingRole.setParentUserId(role.getParentUserId());
-            existingRole.setType(role.getType());
-            existingRole.setChildUserId(role.getChildUserId());
-            return repository.save(existingRole);
-        }
-        return repository.save(role);
+    public ResponseEntity<Role> createAndUpdate (@RequestBody Role role) {
+        return ResponseEntity.ok(service.createAndUpdate(role));
     }
 
     @DeleteMapping
@@ -70,52 +49,8 @@ public class RoleController {
     }
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public ResponseEntity<?> uploadMultipart(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok(service.updateAll(getRoles(getRows(file))));
-    }
-
-
-    private List<String> getRows(MultipartFile file) {
-        BufferedReader br;
-        List<String> csvline = new ArrayList<>();
-        try {
-
-            String line;
-            InputStream is = file.getInputStream();
-            br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null) {
-                csvline.add(line);
-            }
-
-            csvline.remove(0);
-
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-        return csvline;
-    }
-
-    private List<Role> getRoles(List<String> rows) {
-
-        Map<String, String> personMap = new HashMap<>();
-
-        List<Person> personList = personRepository.findAll();
-
-        personList.stream().forEach(person -> {
-            personMap.put(person.getEmail(), person.getId());
-        });
-
-        List<Role> roles =  new ArrayList<>();
-
-        for(String line : rows) {
-            String[] values = line.split(",");
-            Role role = new Role();
-            role.setParentUserId(personMap.get(values[0].trim()));
-            role.setType(RoleType.valueOf(values[1].trim()));
-            role.setChildUserId(personMap.get(values[2].trim()));
-            roles.add(role);
-        }
-        return roles;
-
+    public ResponseEntity<?> uploadCsvFile(@RequestParam("file") MultipartFile file) {
+        service.uploadCsvFile(file);
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 }

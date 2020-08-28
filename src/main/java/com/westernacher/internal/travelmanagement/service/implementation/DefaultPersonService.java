@@ -2,15 +2,11 @@ package com.westernacher.internal.travelmanagement.service.implementation;
 
 import com.westernacher.internal.travelmanagement.domain.Person;
 import com.westernacher.internal.travelmanagement.domain.PersonStatus;
-import com.westernacher.internal.travelmanagement.domain.Role;
 import com.westernacher.internal.travelmanagement.repository.PersonRepository;
 import com.westernacher.internal.travelmanagement.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
