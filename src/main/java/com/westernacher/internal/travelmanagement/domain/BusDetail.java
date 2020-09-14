@@ -2,10 +2,8 @@ package com.westernacher.internal.travelmanagement.domain;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class FlightDetail {
+public class BusDetail {
     private String source;
     private String destination;
     private String comment;

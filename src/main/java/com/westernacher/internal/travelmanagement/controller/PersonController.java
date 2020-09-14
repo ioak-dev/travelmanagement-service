@@ -1,17 +1,19 @@
+
 package com.westernacher.internal.travelmanagement.controller;
 
 import com.westernacher.internal.travelmanagement.domain.Person;
-import com.westernacher.internal.travelmanagement.domain.Role;
 import com.westernacher.internal.travelmanagement.repository.PersonRepository;
 import com.westernacher.internal.travelmanagement.service.PersonService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.*;
 
 @RestController
 @RequestMapping("/person")
+@Slf4j
 public class PersonController {
 
     @Autowired
@@ -20,53 +22,43 @@ public class PersonController {
     @Autowired
     private PersonService service;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Person> getAll () {
+    @GetMapping
+    public List<Person> get () {
         return repository.findAll();
     }
 
-    @RequestMapping(value = "/unit/{unit}", method = RequestMethod.GET)
-    public List<Person> getByUnit (@PathVariable("unit") String unit) {
-        return repository.findAllByUnit(unit);
+    @PutMapping
+    public Person createAndUpdate (@RequestBody Person person) {
+        return service.createAndUpdate(person);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Person get (@PathVariable("id") String id) {
-        return repository.findById(id).orElse(null);
+    @GetMapping("/{id}")
+    public ResponseEntity<Person> get (@PathVariable("id") String id) {
+        return ResponseEntity.ok(repository.findById(id).orElse(null));
     }
 
-    @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
-    public Person getPersonByEmail (@PathVariable("email") String email) {
-        return repository.findPersonByEmail(email.toLowerCase());
+    @GetMapping("/unit/{unit}")
+    public ResponseEntity<List<Person>> getByUnit (@PathVariable("unit") String unit) {
+        return ResponseEntity.ok(repository.findAllByUnit(unit));
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public Person update (@Valid @RequestBody Person person) {
-        return repository.save(person);
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Person> getPersonByEmail (@PathVariable("email") String email) {
+        return ResponseEntity.ok(repository.findPersonByEmail(email.toLowerCase()));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void create (@Valid @RequestBody List<Person> persons) {
-        persons.forEach(person -> {
-            person.setEmail(person.getEmail().toLowerCase());
-            repository.save(person);
-        });
+    @DeleteMapping
+    public void deleteAll () {
+        repository.deleteAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     public void delete (@PathVariable("id") String id) {
         repository.deleteById(id);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public void delete () {
-        repository.deleteAll();
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public void uploadPersonFile(@ModelAttribute("file") MultipartFile file) {
+        service.uploadPersonFile(file);
     }
-
-    @RequestMapping(value = "/{id}/updateRoles", method = RequestMethod.PUT)
-    public void updateRoles(@PathVariable("id") String id,
-                                @Valid @RequestBody List<Role> roleList) {
-        service.updateRoles(id, roleList);
-    }
-
 }

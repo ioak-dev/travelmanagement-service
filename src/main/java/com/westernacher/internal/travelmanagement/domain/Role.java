@@ -2,12 +2,14 @@ package com.westernacher.internal.travelmanagement.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-
-import java.util.List;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Document(collection = "role")
 public class Role {
     @Id
+    private String id;
+    private String parentUserId;
     private RoleType type;
-    private List<String> options;
+    private String childUserId;
 }

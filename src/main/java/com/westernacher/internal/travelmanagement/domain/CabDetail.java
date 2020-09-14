@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class FlightDetail {
+public class CabDetail {
     private String source;
     private String destination;
     private String comment;

@@ -32,12 +32,12 @@ public class ProjectController {
 
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Project update (@Valid @RequestBody Project project) {
+    public Project update (@RequestBody Project project) {
         return repository.save(project);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void create (@Valid @RequestBody List<Project> projects) {
+    public void create (@RequestBody List<Project> projects) {
         repository.saveAll(projects);
     }
 
